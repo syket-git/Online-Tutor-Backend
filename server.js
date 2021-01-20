@@ -11,6 +11,7 @@ const app = express();
 const authRouter = require('./routes/auth');
 const educationRoute = require('./routes/education');
 const updateProfile = require('./routes/updateProfile');
+const profile = require('./routes/profile');
 
 //Middleware
 app.use(express.json());
@@ -22,6 +23,7 @@ app.use('/public', express.static('./public/uploads'));
 app.use('/api/auth', authRouter);
 app.use('/api/education', educationRoute);
 app.use('/api/update-profile', updateProfile);
+app.use('/api/profile', profile);
 
 //DB Connection
 mongoose.connect(
