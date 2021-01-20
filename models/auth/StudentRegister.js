@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 const StudentRegisterSchema = mongoose.Schema({
+  status: {
+    type: String,
+    default: 'student',
+  },
   firstName: {
     type: String,
     required: true,

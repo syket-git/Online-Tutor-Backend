@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 const TutorRegisterSchema = mongoose.Schema({
+  status: {
+    type: String,
+    default: 'tutor',
+  },
   firstName: {
     type: String,
     required: true,
