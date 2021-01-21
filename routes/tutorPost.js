@@ -25,7 +25,7 @@ router.post('/', verify, async (req, res) => {
   }
 });
 
-router.get('/all', verify, async (req, res) => {
+router.get('/all', async (req, res) => {
   try {
     const allTutorPost = await TutorPostSchema.find();
     res.send(allTutorPost);
