@@ -10,9 +10,13 @@ router.get('/tutor/:id', verify, async (req, res) => {
     const tutor = await tutorUpdateProfile.findOne({ userId: id.toString() });
     if (tutor) {
       console.log(tutor);
-      res.send(tutor);
+      res.send({ status: true, statusCode: 200, data: tutor });
     } else {
-      res.json({ status: false, message: 'Tutor not found with this id' });
+      res.json({
+        status: false,
+        statusCode: 404,
+        message: 'Tutor not found with this id',
+      });
     }
   } catch (error) {
     res.status(400).json({ message: error?.message });
@@ -25,9 +29,13 @@ router.get('/student/:id', verify, async (req, res) => {
     const tutor = await studentUpdateProfile.findOne({ userId: id.toString() });
     if (tutor) {
       console.log(tutor);
-      res.send(tutor);
+      res.send({ status: true, statusCode: 200, data: tutor });
     } else {
-      res.json({ status: false, message: 'Student not found with this id' });
+      res.json({
+        status: false,
+        statusCode: 404,
+        message: 'Tutor not found with this id',
+      });
     }
   } catch (error) {
     res.status(400).json({ message: error?.message });

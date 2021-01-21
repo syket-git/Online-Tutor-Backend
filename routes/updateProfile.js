@@ -31,9 +31,11 @@ router.put('/tutor', upload, verify, async (req, res) => {
       sscExamination,
       sscBoard,
       sscPassingYear,
+      sscGroup,
       sscResult,
       hscExamination,
       hscBoard,
+      hscGroup,
       hscPassingYear,
       hscResult,
       graduationDegree,
@@ -56,11 +58,13 @@ router.put('/tutor', upload, verify, async (req, res) => {
     profileFields.email = email;
     profileFields.ssc = {};
     if (sscExamination) profileFields.ssc.examination = sscExamination;
+    if (sscGroup) profileFields.ssc.group = sscGroup;
     if (sscBoard) profileFields.ssc.board = sscBoard;
     if (sscPassingYear) profileFields.ssc.passingYear = sscPassingYear;
     if (sscResult) profileFields.ssc.result = sscResult;
     profileFields.hsc = {};
     if (hscExamination) profileFields.hsc.examination = hscExamination;
+    if (hscGroup) profileFields.hsc.group = hscGroup;
     if (hscBoard) profileFields.hsc.board = hscBoard;
     if (hscPassingYear) profileFields.hsc.passingYear = hscPassingYear;
     if (hscResult) profileFields.hsc.result = hscResult;
