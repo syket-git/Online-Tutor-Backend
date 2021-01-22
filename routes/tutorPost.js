@@ -8,9 +8,11 @@ router.post('/', verify, async (req, res) => {
     const TutorPost = new TutorPostSchema({
       tutorId: req.body.tutorId,
       tutorName: req.body.tutorName,
+      image: req.body.image,
+      qualification: req.body.qualification,
       subjectName: req.body.subjectName,
       time: req.body.time,
-      amount: req.body.amount,
+      payment: req.body.payment,
       days: req.body.days,
       note: req.body.note,
     });

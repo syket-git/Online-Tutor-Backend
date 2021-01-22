@@ -9,6 +9,14 @@ const TutorPostSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  image: {
+    type: String,
+    require: true,
+  },
+  qualification: {
+    type: String,
+    require: true,
+  },
   subjectName: {
     type: String,
     required: true,
@@ -17,7 +25,7 @@ const TutorPostSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  amount: {
+  payment: {
     type: Number,
     required: true,
   },
