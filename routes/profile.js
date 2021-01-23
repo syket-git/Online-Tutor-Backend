@@ -3,6 +3,22 @@ const router = express.Router();
 const verify = require('../verify');
 const tutorUpdateProfile = require('../models/UpdateProfile/TutorUpdateProfile');
 const studentUpdateProfile = require('../models/UpdateProfile/StudentUpdateProfile');
+const TutorRegister = require('../models/auth/TutorRegister');
+//Get Visitor Profile
+
+router.get('/visitor/:id', verify, async (req, res) => {
+  try {
+    const { id } = req.params;
+    console.log(id);
+    const tutor = await TutorRegister.findById(id.toString());
+
+    if (tutor) {
+      res.send({ status: true, statusCode: 200, data: tutor });
+    }
+  } catch (error) {
+    res.status(400).json({ message: error?.message });
+  }
+});
 
 router.get('/tutor/:id', verify, async (req, res) => {
   try {
