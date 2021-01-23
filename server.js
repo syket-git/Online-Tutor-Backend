@@ -13,6 +13,7 @@ const educationRoute = require('./routes/education');
 const updateProfile = require('./routes/updateProfile');
 const tutorPost = require('./routes/tutorPost');
 const profile = require('./routes/profile');
+const enroll = require('./routes/enroll');
 
 //Middleware
 app.use(express.json());
@@ -26,6 +27,7 @@ app.use('/api/education', educationRoute);
 app.use('/api/update-profile', updateProfile);
 app.use('/api/profile', profile);
 app.use('/api/tutor-post', tutorPost);
+app.use('/api/enroll', enroll);
 
 //DB Connection
 mongoose.connect(
