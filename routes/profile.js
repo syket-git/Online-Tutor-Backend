@@ -50,7 +50,7 @@ router.get('/student/:id', verify, async (req, res) => {
       res.json({
         status: false,
         statusCode: 404,
-        message: 'Tutor not found with this id',
+        message: 'Student not found with this id',
       });
     }
   } catch (error) {
