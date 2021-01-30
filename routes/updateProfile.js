@@ -49,6 +49,7 @@ router.put('/tutor', upload, verify, async (req, res) => {
       speciality,
       presentAddress,
       permanentAddress,
+      image,
     } = req.body;
 
     let profileFields = {};
@@ -82,6 +83,7 @@ router.put('/tutor', upload, verify, async (req, res) => {
     if (presentAddress) profileFields.presentAddress = presentAddress;
     if (permanentAddress) profileFields.permanentAddress = permanentAddress;
     if (req.file) profileFields.image = req.file.filename;
+    if (image) profileFields.image = image;
 
     const profile = await TutorRegister.findOneAndUpdate(
       { _id: userId.toString() },
@@ -106,7 +108,13 @@ router.put('/tutor', upload, verify, async (req, res) => {
 //Student Update Profile
 router.put('/student', upload, verify, async (req, res) => {
   try {
-    const { userId, className, presentAddress, permanentAddress } = req.body;
+    const {
+      userId,
+      className,
+      image,
+      presentAddress,
+      permanentAddress,
+    } = req.body;
 
     let profileFields = {};
     profileFields.userId = userId;
@@ -114,10 +122,12 @@ router.put('/student', upload, verify, async (req, res) => {
     if (presentAddress) profileFields.presentAddress = presentAddress;
     if (permanentAddress) profileFields.permanentAddress = permanentAddress;
     if (req.file) profileFields.image = req.file.filename;
+    if (image) profileFields.image = image;
 
     const profile = await StudentRegister.findOneAndUpdate(
       { _id: userId.toString() },
-      { $set: { profile: profileFields } }
+      { $set: { profile: profileFields } },
+      { new: true }
     );
     if (profile) {
       res.json({
