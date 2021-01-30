@@ -30,6 +30,23 @@ const StudentRegisterSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  profile: {
+    userId: {
+      type: String,
+    },
+    className: {
+      type: String,
+    },
+    presentAddress: {
+      type: String,
+    },
+    permanentAddress: {
+      type: String,
+    },
+    image: {
+      type: String,
+    },
+  },
   date: {
     type: Date,
     default: Date.now,

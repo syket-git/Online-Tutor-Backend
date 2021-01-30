@@ -30,6 +30,92 @@ const TutorRegisterSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  profile: {
+    userId: {
+      type: String,
+    },
+    ssc: {
+      examination: {
+        type: String,
+      },
+      board: {
+        type: String,
+      },
+      group: {
+        type: String,
+      },
+      passingYear: {
+        type: String,
+      },
+      result: {
+        type: String,
+      },
+    },
+    hsc: {
+      examination: {
+        type: String,
+      },
+      board: {
+        type: String,
+      },
+      group: {
+        type: String,
+      },
+      passingYear: {
+        type: String,
+      },
+      result: {
+        type: String,
+      },
+    },
+    graduation: {
+      degree: {
+        type: String,
+      },
+      subject: {
+        type: String,
+      },
+      board: {
+        type: String,
+      },
+      passingYear: {
+        type: String,
+      },
+      result: {
+        type: String,
+      },
+    },
+    master: {
+      degree: {
+        type: String,
+      },
+      subject: {
+        type: String,
+      },
+      board: {
+        type: String,
+      },
+      passingYear: {
+        type: String,
+      },
+      result: {
+        type: String,
+      },
+    },
+
+    speciality: {
+      type: String,
+    },
+    presentAddress: {
+      type: String,
+    },
+    permanentAddress: {
+      type: String,
+    },
+    image: {
+      type: String,
+    },
+  },
   date: {
     type: Date,
     default: Date.now,

@@ -3,9 +3,8 @@ const router = express.Router();
 const multer = require('multer');
 const path = require('path');
 const verify = require('../verify');
-const tutorUpdateProfile = require('../models/UpdateProfile/TutorUpdateProfile');
-const studentUpdateProfile = require('../models/UpdateProfile/StudentUpdateProfile');
-
+const StudentRegister = require('../models/auth/StudentRegister');
+const TutorRegister = require('../models/auth/TutorRegister');
 //Set Storage Engine
 const storage = multer.diskStorage({
   destination: './public/uploads',
@@ -27,7 +26,6 @@ router.put('/tutor', upload, verify, async (req, res) => {
   try {
     const {
       userId,
-      email,
       sscExamination,
       sscBoard,
       sscPassingYear,
@@ -55,7 +53,6 @@ router.put('/tutor', upload, verify, async (req, res) => {
 
     let profileFields = {};
     profileFields.userId = userId;
-    profileFields.email = email;
     profileFields.ssc = {};
     if (sscExamination) profileFields.ssc.examination = sscExamination;
     if (sscGroup) profileFields.ssc.group = sscGroup;
@@ -86,27 +83,21 @@ router.put('/tutor', upload, verify, async (req, res) => {
     if (permanentAddress) profileFields.permanentAddress = permanentAddress;
     if (req.file) profileFields.image = req.file.filename;
 
-    let tutorProfile = await tutorUpdateProfile.findOne({
-      userId: userId.toString(),
-    });
-    if (tutorProfile) {
-      tutorProfile = await tutorUpdateProfile.findOneAndUpdate(
-        { userId: userId },
-        { $set: profileFields },
-        { new: true }
-      );
-      return res.json({
+    const profile = await TutorRegister.findOneAndUpdate(
+      { _id: userId.toString() },
+      { $set: { profile: profileFields } }
+    );
+    if (profile) {
+      res.json({
         status: true,
         message: 'Profile updated successfully done',
       });
+    } else {
+      res.json({
+        status: false,
+        message: "We couldn't find any student in this id",
+      });
     }
-
-    const TutorProfileUpdate = new tutorUpdateProfile(profileFields);
-    await TutorProfileUpdate.save();
-    res.json({
-      status: true,
-      message: 'Profile updated successfully done',
-    });
   } catch (err) {
     res.status(400).json({ message: err?.message });
   }
@@ -115,43 +106,30 @@ router.put('/tutor', upload, verify, async (req, res) => {
 //Student Update Profile
 router.put('/student', upload, verify, async (req, res) => {
   try {
-    const {
-      userId,
-      email,
-      className,
-      presentAddress,
-      permanentAddress,
-    } = req.body;
+    const { userId, className, presentAddress, permanentAddress } = req.body;
 
     let profileFields = {};
     profileFields.userId = userId;
-    profileFields.email = email;
     if (className) profileFields.className = className;
     if (presentAddress) profileFields.presentAddress = presentAddress;
     if (permanentAddress) profileFields.permanentAddress = permanentAddress;
     if (req.file) profileFields.image = req.file.filename;
 
-    let studentProfile = await studentUpdateProfile.findOne({
-      userId: userId.toString(),
-    });
-    if (studentProfile) {
-      studentProfile = await studentUpdateProfile.findOneAndUpdate(
-        { userId: userId },
-        { $set: profileFields },
-        { new: true }
-      );
-      return res.json({
+    const profile = await StudentRegister.findOneAndUpdate(
+      { _id: userId.toString() },
+      { $set: { profile: profileFields } }
+    );
+    if (profile) {
+      res.json({
         status: true,
         message: 'Profile updated successfully done',
       });
+    } else {
+      res.json({
+        status: false,
+        message: "We couldn't find any student in this id",
+      });
     }
-
-    const StudentProfileUpdate = new studentUpdateProfile(profileFields);
-    await StudentProfileUpdate.save();
-    res.json({
-      status: true,
-      message: 'Profile updated successfully done',
-    });
   } catch (err) {
     res.status(400).json({ message: err?.message });
   }

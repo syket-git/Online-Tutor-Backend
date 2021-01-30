@@ -1,10 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const EnrollSchema = require('../models/Enroll/Enroll');
 const verify = require('../verify');
-const studentUpdateProfile = require('../models/UpdateProfile/StudentUpdateProfile');
-const { response } = require('express');
+const StudentRegister = require('../models/auth/StudentRegister');
 const TutorPostSchema = require('../models/TutorPost/TutorPost');
+const mongoose = require('mongoose');
 
 //Student Enroll
 router.post('/', verify, async (req, res) => {
@@ -30,24 +29,30 @@ router.post('/', verify, async (req, res) => {
 // Get Student Profile and enrolled post
 router.get('/student/:id', verify, async (req, res) => {
   const { id } = req.params;
+  const ObjectId = mongoose.Types.ObjectId;
   try {
-    const posts = await studentUpdateProfile.aggregate([
+    const posts = await StudentRegister.aggregate([
       {
-        $match: { userId: id.toString() },
+        $match: { _id: ObjectId(id) },
       },
       {
         $lookup: {
           from: 'tutorpostschemas',
-          localField: 'userId',
+          localField: 'profile.userId',
           foreignField: 'enrolled',
           as: 'enrolled_post',
         },
       },
       {
-        $project: { enrolled_post: { _id: 0, enrolled: 0 } },
+        $project: { password: 0, enrolled_post: { _id: 0, enrolled: 0 } },
       },
     ]);
-    res.send({ status: true, data: posts });
+
+    if (posts) {
+      res.send({ status: true, statusCode: 200, data: posts[0] });
+    } else {
+      res.send({ status: false, statusCode: 404 });
+    }
   } catch (error) {
     res.status(400).json({ message: error?.message });
   }
@@ -63,18 +68,30 @@ router.get('/tutor/:id', verify, async (req, res) => {
       },
       {
         $lookup: {
-          from: 'studentupdateprofiles',
+          from: 'studentregisters',
           localField: 'enrolled',
-          foreignField: 'userId',
+          foreignField: 'profile.userId',
           as: 'enrolled_student',
         },
       },
       {
-        $project: { enrolled: 0 },
+        $project: {
+          enrolled: 0,
+          enrolled_student: {
+            _id: 0,
+            status: 0,
+            email: 0,
+            phone: 0,
+            gender: 0,
+            password: 0,
+            date: 0,
+            profile: { className: 0, presentAddress: 0, permanentAddress: 0 },
+          },
+        },
       },
     ]);
 
-    res.send(data);
+    res.send({ status: true, data: data });
   } catch (error) {
     res.status(400).json({ message: error?.message });
   }
