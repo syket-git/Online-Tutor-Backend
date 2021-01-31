@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const verify = require('../verify');
 const TutorRegister = require('../models/auth/TutorRegister');
-
+const StudentRegister = require('../models/auth/StudentRegister');
 //Get Tutor Visitor Profile
 
 router.get('/visitor/tutor/:id', verify, async (req, res) => {
@@ -19,21 +19,21 @@ router.get('/visitor/tutor/:id', verify, async (req, res) => {
   }
 });
 
-// //Get Student Visitor profile
+//Get Student Visitor profile
 
-// router.get('/visitor/student/:id', verify, async (req, res) => {
-//   try {
-//     const { id } = req.params;
-//     console.log(id);
-//     const student = await StudentRegister.findById(id.toString());
-//     //use aggregate method [lookup with the register data]
-//     if (student) {
-//       res.send({ status: true, statusCode: 200, data: student });
-//     }
-//   } catch (error) {
-//     res.status(400).json({ message: error?.message });
-//   }
-// });
+router.get('/visitor/student/:id', verify, async (req, res) => {
+  try {
+    const { id } = req.params;
+    console.log(id);
+    const student = await StudentRegister.findById(id.toString());
+
+    if (student) {
+      res.send({ status: true, statusCode: 200, data: student });
+    }
+  } catch (error) {
+    res.status(400).json({ message: error?.message });
+  }
+});
 
 // router.get('/tutor/:id', verify, async (req, res) => {
 //   try {

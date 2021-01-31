@@ -59,4 +59,43 @@ router.get('/student/:id', verify, async (req, res) => {
   }
 });
 
+//Search By tutor ID
+router.get('/tutor/:id', verify, async (req, res) => {
+  const { id } = req.params;
+  try {
+    const data = await TutorPostSchema.aggregate([
+      {
+        $match: { tutorId: id.toString() },
+      },
+      {
+        $lookup: {
+          from: 'studentregisters',
+          localField: 'enrolled',
+          foreignField: 'profile.userId',
+          as: 'enrolled_student',
+        },
+      },
+      {
+        $project: {
+          enrolled: 0,
+          enrolled_student: {
+            _id: 0,
+            status: 0,
+            email: 0,
+            phone: 0,
+            gender: 0,
+            password: 0,
+            date: 0,
+            profile: { className: 0, presentAddress: 0, permanentAddress: 0 },
+          },
+        },
+      },
+    ]);
+
+    res.send({ status: true, data: data });
+  } catch (error) {
+    res.status(400).json({ message: error?.message });
+  }
+});
+
 module.exports = router;
