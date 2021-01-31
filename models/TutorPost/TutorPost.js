@@ -5,18 +5,6 @@ const TutorPostSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  tutorName: {
-    type: String,
-    required: true,
-  },
-  image: {
-    type: String,
-    require: true,
-  },
-  qualification: {
-    type: String,
-    require: true,
-  },
   subjectName: {
     type: String,
     required: true,
